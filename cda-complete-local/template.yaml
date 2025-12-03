@@ -1,0 +1,158 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Scrooge Scanner Stack - 500 Agents Architecture
+  Includes Lambda, DynamoDB, SQS buffering, and Streamlit Interface support.
+
+Globals:
+  Function:
+    Timeout: 900
+    MemorySize: 3008
+    Runtime: python3.12
+    Environment:
+      Variables:
+        LOG_LEVEL: INFO
+        MOUNT_PATH: /tmp
+        TABLE_SCAN_STATE: !Ref ScanStateTable
+        TABLE_KNOWLEDGE_BASE: !Ref ScroogeKnowledgeBase
+        TABLE_TARGETS: !Ref ScroogeTargets
+        UPLOAD_BUCKET: "scanner-agent-uploads"
+
+Resources:
+  # --- SQS QUEUE ---
+  ScroogeJobQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: ScroogeJobQueue
+      VisibilityTimeout: 900 # Matches Lambda timeout
+      MessageRetentionPeriod: 345600
+
+  # --- DYNAMODB TABLES ---
+  ScanStateTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: ScroogeScanState
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: scan_id
+          AttributeType: S
+        - AttributeName: repo_name
+          AttributeType: S
+      KeySchema:
+        - AttributeName: scan_id
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: RepoNameIndex
+          KeySchema:
+            - AttributeName: repo_name
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+
+  ScroogeKnowledgeBase:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: ScroogeKnowledgeBase
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: keyword
+          AttributeType: S
+      KeySchema:
+        - AttributeName: keyword
+          KeyType: HASH
+
+  ScroogeTargets:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: ScroogeTargets
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: repo_url
+          AttributeType: S
+      KeySchema:
+        - AttributeName: repo_url
+          KeyType: HASH
+
+  # --- LAMBDA FUNCTIONS ---
+  FetcherFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: fetcher_entrypoint.lambda_handler
+      Description: "Parses target list and queues scans"
+      Environment:
+        Variables:
+          JOB_QUEUE_URL: !Ref ScroogeJobQueue
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ScanStateTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ScroogeTargets
+        - SQSSendMessagePolicy:
+            QueueName: !GetAtt ScroogeJobQueue.QueueName
+
+  ScroogeScannerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: lambda_entrypoint.lambda_handler
+      Architectures:
+        - x86_64
+      Policies:
+        - S3CrudPolicy:
+            BucketName: "scanner-agent-uploads"
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ScanStateTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ScroogeKnowledgeBase
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ScroogeTargets
+      Environment:
+        Variables:
+          GOOGLE_API_KEY: !Ref GoogleApiKey
+          LLM_MODEL: "gemini-2.5-flash-lite"
+      Layers:
+        - !Ref GitLayer
+      Events:
+        SQSJob:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt ScroogeJobQueue.Arn
+            BatchSize: 1 
+            # Batch size 1 so we handle one repo at a time per invocation
+            # to avoid timeout issues with large repos.
+
+  # --- GIT LAYER ---
+  GitLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      ContentUri: git_layer/
+      CompatibleRuntimes:
+        - python3.12
+
+  # --- LOG GROUPS ---
+  ScroogeScannerLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/"
+      RetentionInDays: 14
+
+Parameters:
+  GoogleApiKey:
+    Type: String
+    Description: API Key for Google Gemini
+    NoEcho: true
+
+Outputs:
+  ScannerFunctionArn:
+    Description: "Scrooge Scanner Lambda Function ARN"
+    Value: !GetAtt ScroogeScannerFunction.Arn
+  FetcherFunctionArn:
+    Description: "Fetcher Lambda Function ARN"
+    Value: !GetAtt FetcherFunction.Arn
+  ScanStateTableName:
+    Value: !Ref ScanStateTable
+  TargetsTableName:
+    Value: !Ref ScroogeTargets
+  JobQueueUrl:
+    Value: !Ref ScroogeJobQueue

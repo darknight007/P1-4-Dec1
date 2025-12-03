@@ -1,0 +1,107 @@
+# Cost Patterns Configuration
+
+# 1. LLM Usage
+llm:
+  keywords:
+    - "openai"
+    - "langchain"
+    - "gpt"
+    - "ChatOpenAI"
+    - "llama"
+    - "anthropic"
+    - "client = OpenAI"
+    - "from openai import"
+    - "openai.ChatCompletion.create"
+    - "llama_index"
+    - "openai_api_key"
+    - "crewai"
+    - "autogen"
+  models:
+    - "gpt-4o"
+    - "gpt-4"
+    - "gpt-4o-mini"
+    - "gpt-3.5-turbo"
+    - "claude-3"
+    - "claude-2"
+    - "text-embedding-3-small"
+
+# 2. Vector Databases & Embeddings
+vector_db:
+  keywords:
+    - "pinecone"
+    - "chromadb"
+    - "weaviate"
+    - "milvus"
+    - "vectorstore"
+    - "qdrant"
+    - "elasticsearch"
+
+# 3. External APIs & SaaS
+apis:
+  domains:
+    - "hubspot.com"
+    - "sendgrid.com"
+    - "twilio.com"
+    - "googleapis.com"
+    - "salesforce.com"
+    - "clearbit.com"
+    - "zoominfo.com"
+    - "slack.com"
+    - "gmail.googleapis.com"
+    - "mailgun.org"
+  libraries:
+    - "hubspot"
+    - "sendgrid"
+    - "twilio"
+    - "google.cloud"
+    - "simple_salesforce"
+    - "slack_sdk"
+
+# 4. Infrastructure & Compute
+infra:
+  files:
+    - "Dockerfile"
+    - "docker-compose.yml"
+    - "serverless.yml"
+  dirs:
+    - "k8s/"
+    - "terraform/"
+    - ".github/workflows"
+  keywords:
+    - "aws"
+    - "boto3"
+    - "google.cloud"
+    - "azure"
+    - "lambda"
+    - "ec2"
+    - "s3"
+    - "dynamodb"
+
+# 5. CI/CD & Scheduling
+cicd:
+  keywords:
+    - "cron"
+    - "schedule"
+    - "celery"
+    - "rq"
+    - "airflow"
+    - "temporal"
+
+# 6. Human in the Loop
+hitl:
+  keywords:
+    - "approval"
+    - "review"
+    - "manual"
+    - "is_approved"
+    - "confirm_send"
+    - "human_input"
+
+# 7. Scraping
+scraping:
+  keywords:
+    - "playwright"
+    - "puppeteer"
+    - "selenium"
+    - "beautifulsoup"
+    - "scrapy"

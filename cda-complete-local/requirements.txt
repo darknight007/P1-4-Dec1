@@ -1,0 +1,13 @@
+langchain>=1.0.8
+langchain-google-genai>=3.1.0
+langgraph
+pydantic
+pyyaml
+python-dotenv
+pandas
+openpyxl
+boto3
+requests
+langgraph-checkpoint-sqlite
+filetype
+outlines

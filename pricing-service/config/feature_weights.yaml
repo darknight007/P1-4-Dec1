@@ -1,0 +1,32 @@
+# Feature "Stickiness" and Value Perception
+# Used by the Recommender to adjust pricing power.
+# Scale: 0.0 (Low) to 1.0 (High)
+
+defaults:
+  stickiness: 0.5
+  value_perception: "medium"
+
+categories:
+  security:
+    stickiness: 0.9
+    value_perception: "high"
+    rationale: "Security features are hard to rip out once integrated."
+  
+  analytics:
+    stickiness: 0.4
+    value_perception: "medium"
+    rationale: "Reports are valuable but easily replaced."
+
+  workflow_automation:
+    stickiness: 0.8
+    value_perception: "high"
+    rationale: "Core business logic depends on these."
+
+specific_features:
+  sso:
+    stickiness: 0.95
+    value_perception: "high"
+  
+  reporting_dashboard:
+    stickiness: 0.3
+    value_perception: "low"

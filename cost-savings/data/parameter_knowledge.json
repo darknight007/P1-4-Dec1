@@ -1,0 +1,36 @@
+{
+  "global": [
+    {
+      "id": "human_hourly_rate",
+      "label": "Human Hourly Cost",
+      "data_type": "currency",
+      "unit": "$",
+      "default_value": 30.0,
+      "reasoning": "Global Baseline"
+    },
+    {
+      "id": "human_throughput",
+      "label": "Human Throughput",
+      "data_type": "number",
+      "unit": "units/hr",
+      "default_value": 10.0,
+      "reasoning": "Global Baseline"
+    }
+  ],
+  "regex_rules": {
+    "quality": {
+      "pattern": "(quality|review|check|audit)",
+      "params": [
+        {
+          "id": "human_accuracy",
+          "label": "Human Accuracy",
+          "data_type": "percent",
+          "unit": "%",
+          "default_value": 95.0,
+          "reasoning": "Manual Error Rate"
+        }
+      ]
+    }
+  },
+  "learned_patterns": {}
+}

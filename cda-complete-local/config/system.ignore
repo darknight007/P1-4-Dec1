@@ -1,0 +1,61 @@
+# Version Control
+.git/
+.svn/
+.hg/
+
+# Dependencies & Environments
+node_modules/
+bower_components/
+jspm_packages/
+venv/
+.venv/
+env/
+virtualenv/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.tox/
+.eggs/
+*.egg-info/
+
+# Build & Artifacts
+dist/
+build/
+target/
+bin/
+obj/
+lib/
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.dll
+*.dylib
+*.exe
+*.class
+*.jar
+*.war
+*.ear
+
+# Media & Assets
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.ico
+*.svg
+*.mp3
+*.mp4
+*.wav
+*.pdf
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# IDEs
+.idea/
+.vscode/
+.settings/
+*.swp
+.DS_Store

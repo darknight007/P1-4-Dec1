@@ -1,0 +1,29 @@
+# Core Framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.5.0
+pydantic-settings==2.1.0
+
+# Database
+# (SQLite is built-in to Python, no package needed)
+
+# LLM Integration
+langchain-google-genai==2.0.4
+langchain-core==0.3.21
+google-generativeai==0.8.3
+
+# Data Processing
+pyyaml==6.0.1
+python-dotenv==1.0.0
+
+# HTTP Client (for testing)
+requests==2.31.0
+httpx==0.25.2
+
+# Utilities
+python-multipart==0.0.6
+
+# Optional: Testing
+pytest==7.4.3
+pytest-cov==4.1.0
+pytest-asyncio==0.21.1

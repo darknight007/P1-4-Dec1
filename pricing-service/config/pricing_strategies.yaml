@@ -1,0 +1,31 @@
+strategies:
+  aggressive_enterprise:
+    description: "Maximize margin for high-value corporate agents"
+    margin_target_percent: 75
+    base_fee_weight: 0.7
+    usage_markup_multiplier: 4.0
+    recommended_models: ["HYBRID", "SEAT_BASED"]
+    conditions:
+      min_savings_monthly: 5000
+      customer_segment: "enterprise"
+
+  plg_growth:
+    description: "Low barrier to entry, maximize adoption"
+    margin_target_percent: 30
+    base_fee_weight: 0.2
+    usage_markup_multiplier: 1.5
+    recommended_models: ["FREEMIUM", "USAGE_ONLY"]
+    free_tier_generous: true
+    conditions:
+      customer_segment: "smb"
+
+  balanced_saas:
+    description: "Standard B2B SaaS model"
+    margin_target_percent: 60
+    base_fee_weight: 0.5
+    usage_markup_multiplier: 2.5
+    recommended_models: ["HYBRID", "TIERED"]
+
+defaults:
+  currency: "USD"
+  billing_provider: "stripe"

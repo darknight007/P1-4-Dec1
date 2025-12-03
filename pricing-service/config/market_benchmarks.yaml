@@ -1,0 +1,254 @@
+# Market Benchmarks for Pricing Index Calculation
+# 
+# Purpose: Normalize savings values relative to industry expectations
+# Formula: PI = (Savings × Quality × Stickiness) / Market Benchmark
+#
+# Philosophy:
+# - A $3K/month chatbot (vs $1.5K market avg) = HIGH PI = Aggressive pricing justified
+# - A $3K/month ERP (vs $50K market avg) = LOW PI = Conservative pricing recommended
+#
+# Data Sources:
+# - Public SaaS pricing pages (Intercom, Drift, HubSpot, etc.)
+# - Gartner Magic Quadrant reports
+# - Internal competitive analysis
+# - Customer willingness-to-pay surveys
+#
+# Maintenance:
+# - Review quarterly
+# - Update when entering new verticals
+# - Log benchmark selections for audit trail
+
+version: "1.0"
+last_updated: "2025-12-01"
+
+# ============================================================================
+# CATEGORY BENCHMARKS
+# ============================================================================
+
+categories:
+  # -------------------------------------------------------------------------
+  # Customer-Facing AI Agents
+  # -------------------------------------------------------------------------
+  
+  chatbot:
+    benchmark_monthly_savings: 1500
+    benchmark_description: "Customer support chatbot baseline"
+    market_examples:
+      - "Intercom Resolution Bot: $99-499/mo"
+      - "Drift Conversational AI: $400-2500/mo"
+      - "Zendesk AI: $49-215/mo"
+    typical_savings_range: [800, 3000]
+    notes: "High volume, low complexity. Replaces 0.5-2 FTE support agents."
+  
+  sales_assistant:
+    benchmark_monthly_savings: 2500
+    benchmark_description: "SDR/BDR automation and lead enrichment"
+    market_examples:
+      - "Apollo.io Enrichment: $49-149/mo"
+      - "Outreach.io: $100-150/user/mo"
+      - "HubSpot Sales Hub: $450-1200/mo"
+    typical_savings_range: [1500, 5000]
+    notes: "Replaces 0.3-1 FTE SDR. High ROI due to pipeline impact."
+  
+  content_writer:
+    benchmark_monthly_savings: 1200
+    benchmark_description: "Content generation and copywriting"
+    market_examples:
+      - "Jasper AI: $49-125/mo"
+      - "Copy.ai: $36-186/mo"
+      - "Freelance writers: $500-2000/mo"
+    typical_savings_range: [600, 2500]
+    notes: "Replaces fractional content writer. Quality variance high."
+  
+  # -------------------------------------------------------------------------
+  # Workflow Automation
+  # -------------------------------------------------------------------------
+  
+  automation:
+    benchmark_monthly_savings: 5000
+    benchmark_description: "Mid-market workflow automation suite"
+    market_examples:
+      - "Zapier Teams: $299-599/mo"
+      - "Make.com Pro: $29-299/mo"
+      - "UiPath: $5000-20000/mo (enterprise)"
+    typical_savings_range: [2000, 15000]
+    notes: "Replaces 1-3 FTE ops staff. Varies by complexity."
+  
+  data_enrichment:
+    benchmark_monthly_savings: 3000
+    benchmark_description: "Data cleaning, enrichment, normalization"
+    market_examples:
+      - "Clearbit: $99-999/mo"
+      - "ZoomInfo: $15000-30000/year"
+      - "Manual data entry: $2000-5000/mo"
+    typical_savings_range: [1500, 8000]
+    notes: "Replaces 0.5-2 FTE data specialists."
+  
+  document_processing:
+    benchmark_monthly_savings: 4000
+    benchmark_description: "OCR, extraction, classification"
+    market_examples:
+      - "DocuSign CLM: $50-100/user/mo"
+      - "Nanonets: $499-1999/mo"
+      - "Manual processing: $3000-8000/mo"
+    typical_savings_range: [2000, 12000]
+    notes: "High volume use cases. Replaces 1-2 FTE document processors."
+  
+  # -------------------------------------------------------------------------
+  # Analytics & Intelligence
+  # -------------------------------------------------------------------------
+  
+  analytics:
+    benchmark_monthly_savings: 3500
+    benchmark_description: "Business intelligence and reporting"
+    market_examples:
+      - "Tableau: $70/user/mo"
+      - "Looker: $3000-5000/mo"
+      - "Power BI: $10-20/user/mo"
+    typical_savings_range: [1500, 10000]
+    notes: "Replaces 0.5-1.5 FTE analysts. Value in speed to insight."
+  
+  forecasting:
+    benchmark_monthly_savings: 6000
+    benchmark_description: "Predictive analytics and forecasting"
+    market_examples:
+      - "Anaplan: $30000-100000/year"
+      - "Adaptive Insights: $50000-150000/year"
+      - "Excel + analyst: $5000-10000/mo"
+    typical_savings_range: [3000, 20000]
+    notes: "Enterprise use case. Replaces senior analyst time."
+  
+  # -------------------------------------------------------------------------
+  # Compliance & Risk
+  # -------------------------------------------------------------------------
+  
+  compliance:
+    benchmark_monthly_savings: 8000
+    benchmark_description: "Regulatory compliance and audit"
+    market_examples:
+      - "LogicGate Risk Cloud: $2500-10000/mo"
+      - "Compliance.ai: $5000-20000/mo"
+      - "Manual compliance: $8000-15000/mo"
+    typical_savings_range: [5000, 30000]
+    notes: "High-stakes, low-volume. Replaces specialized compliance roles."
+  
+  fraud_detection:
+    benchmark_monthly_savings: 12000
+    benchmark_description: "Fraud prevention and risk scoring"
+    market_examples:
+      - "Sift: $500-5000/mo"
+      - "Forter: Enterprise pricing"
+      - "Manual review: $10000-20000/mo"
+    typical_savings_range: [5000, 50000]
+    notes: "ROI includes fraud loss prevention, not just labor savings."
+  
+  # -------------------------------------------------------------------------
+  # Enterprise Systems
+  # -------------------------------------------------------------------------
+  
+  erp_integration:
+    benchmark_monthly_savings: 25000
+    benchmark_description: "Enterprise resource planning automation"
+    market_examples:
+      - "SAP: $100000-500000/year"
+      - "Oracle ERP: $150000-1000000/year"
+      - "Integration consultants: $20000-50000/mo"
+    typical_savings_range: [15000, 100000]
+    notes: "Large enterprise. Replaces multiple specialists."
+  
+  infrastructure_ops:
+    benchmark_monthly_savings: 15000
+    benchmark_description: "DevOps and infrastructure automation"
+    market_examples:
+      - "Datadog: $15-31/host/mo"
+      - "PagerDuty: $21-41/user/mo"
+      - "SRE engineers: $15000-25000/mo"
+    typical_savings_range: [8000, 40000]
+    notes: "Replaces 1-2 FTE DevOps engineers."
+
+# ============================================================================
+# DEFAULTS
+# ============================================================================
+
+defaults:
+  benchmark_monthly_savings: 2500
+  benchmark_description: "Generic knowledge work automation"
+  notes: "Fallback for uncategorized features. Use with caution."
+
+# ============================================================================
+# SCORING BANDS
+# ============================================================================
+# Guidance for interpreting PI scores
+
+scoring_guidance:
+  high_pi:
+    threshold: 1.5
+    interpretation: "Savings significantly above market. Aggressive pricing justified."
+    strategy_recommendation: "aggressive_enterprise or premium pricing"
+  
+  medium_pi:
+    threshold: 0.7
+    interpretation: "Savings at or slightly above market. Standard pricing."
+    strategy_recommendation: "balanced_saas"
+  
+  low_pi:
+    threshold: 0.4
+    interpretation: "Savings below market. Conservative pricing or freemium."
+    strategy_recommendation: "plg_growth or discounted entry"
+  
+  very_low_pi:
+    threshold: 0.2
+    interpretation: "Minimal savings. Reconsider product-market fit."
+    strategy_recommendation: "Reassess value proposition or pivot"
+
+# ============================================================================
+# ADJUSTMENT FACTORS
+# ============================================================================
+# Additional context for PI calculation
+
+adjustment_factors:
+  # Market maturity
+  emerging_market:
+    multiplier: 0.7
+    notes: "Less willing to pay in nascent categories"
+  
+  mature_market:
+    multiplier: 1.2
+    notes: "Established buyer behavior, higher WTP"
+  
+  # Customer segment
+  smb:
+    multiplier: 0.8
+    notes: "Price-sensitive, smaller budgets"
+  
+  mid_market:
+    multiplier: 1.0
+    notes: "Baseline segment"
+  
+  enterprise:
+    multiplier: 1.5
+    notes: "Larger budgets, procurement processes"
+  
+  # Geographic
+  us_market:
+    multiplier: 1.0
+    notes: "Baseline geography"
+  
+  eu_market:
+    multiplier: 0.9
+    notes: "Slightly lower WTP, regulatory complexity"
+  
+  apac_market:
+    multiplier: 0.7
+    notes: "Emerging SaaS adoption, price sensitivity"
+
+# ============================================================================
+# MAINTENANCE LOG
+# ============================================================================
+
+changelog:
+  - date: "2025-12-01"
+    change: "Initial benchmark definitions based on 2025 market analysis"
+    author: "pricing_team"
+  
+  # Future updates will be logged here
